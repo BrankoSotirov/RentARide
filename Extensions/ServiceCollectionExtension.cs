@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RentARide.Data;
+using RentARide.Infrastructure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
