@@ -22,5 +22,7 @@ namespace RentARide.Infrastructure.Data.Models
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
+
+        public IEnumerable<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
 }

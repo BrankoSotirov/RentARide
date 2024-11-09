@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RentARide.Core.Models.Home;
 using RentARide.Models;
 using System.Diagnostics;
 
@@ -15,7 +16,8 @@ namespace RentARide.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+            return View(model);
         }
 
    
