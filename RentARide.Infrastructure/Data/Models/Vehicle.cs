@@ -20,14 +20,14 @@ namespace RentARide.Infrastructure.Data.Models
 
         [Required]
         [MaxLength(DescriptionMaxLength)]
-        public string Description = string.Empty;
+        public string Description { get; set; }
 
         [Required]
-        public int Year { get; set; }
+        public short Year { get; set; }
 
         [Required]
         //value
-        public int HorsePower { get; set; }
+        public short HorsePower { get; set; }
 
         [Required]
         public decimal PricePerDay { get; set; }
@@ -58,7 +58,7 @@ namespace RentARide.Infrastructure.Data.Models
         
       
         [ForeignKey(nameof(EngineId))]
-        public Engine EngineType { get; set; } = null!;
+        public Engine Engine { get; set; } = null!;
 
      
         [ForeignKey(nameof(ManufacturerId))]
