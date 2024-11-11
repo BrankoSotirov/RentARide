@@ -1,12 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentARide.Core.Contracts.Vehicle;
+using RentARide.Core.Contracts;
 using RentARide.Core.Models.Home;
 using RentARide.Models;
 using System.Diagnostics;
 
 namespace RentARide.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IVehicleService vehicleService;
@@ -20,6 +21,7 @@ namespace RentARide.Controllers
             
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var model = await vehicleService.LastThreeVehicles();
@@ -27,8 +29,8 @@ namespace RentARide.Controllers
             return View(model);
         }
 
-   
 
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

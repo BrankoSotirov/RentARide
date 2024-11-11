@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentARide.Core.Contracts.Vehicle
+namespace RentARide.Core.Contracts
 {
-	public interface IVehicleService
-	{
+    public interface IVehicleService
+    {
 
-		Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicles();  
-	}
+        Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicles();
+    }
 }

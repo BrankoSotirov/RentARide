@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentARide.Core.Contracts;
 using RentARide.Core.Models.Agent;
 
 namespace RentARide.Controllers
 {
-	[Authorize]
-	public class AgentController : Controller
+
+	public class AgentController : BaseController
 	{
+
+		private readonly IAgentService agentService;
+
+		public AgentController(IAgentService _agentService)
+		{
+
+			agentService = _agentService;	
+		}
 		[HttpGet]
 		public async Task <IActionResult> Become()
 		{

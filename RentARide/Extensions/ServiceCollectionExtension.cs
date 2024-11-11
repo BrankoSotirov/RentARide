@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RentARide.Core.Contracts.Vehicle;
-using RentARide.Core.Services.Vehicle;
+using RentARide.Core.Contracts;
+using RentARide.Core.Services;
 using RentARide.Data;
 using RentARide.Infrastructure.Data.Common;
 namespace Microsoft.Extensions.DependencyInjection
@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IAgentService, AgentService>();
 
             return services;
         }
