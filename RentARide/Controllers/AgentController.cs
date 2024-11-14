@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentARide.Attributes;
 using RentARide.Core.Contracts;
 using RentARide.Core.Models.Agent;
+using RentARide.Extensions;
 
 namespace RentARide.Controllers
 {
@@ -17,17 +19,37 @@ namespace RentARide.Controllers
 			agentService = _agentService;	
 		}
 		[HttpGet]
+		[NotAnAgent]
 		public async Task <IActionResult> Become()
 		{
 			var model = new BecomeAgentFormModel();
 
-
 			return View(model);
+		
+
 		}
 		[HttpPost]
-
+		[NotAnAgent]
 		public async Task <IActionResult> Become(BecomeAgentFormModel model)
 		{
+			if (await agentService.UserWithPhoneNumberExists(User.Id()))
+			{
+				ModelState.AddModelError(nameof(model.PhoneNumber), "");
+
+			}
+
+			if (await agentService.UserHasRent(User.Id())) {
+
+				ModelState.AddModelError("Error", "");
+
+			}
+
+			if (ModelState.IsValid == false) {
+			
+				return View(model);
+			}
+
+			await agentService.Create(User.Id(), model.PhoneNumber);
 
 			return RedirectToAction(nameof(VehicleController.All), "Vehicle");
 		}
