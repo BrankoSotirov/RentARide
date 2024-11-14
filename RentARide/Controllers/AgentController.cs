@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentARide.Core.Contracts;
 using RentARide.Core.Models.Agent;
+using RentARide.Extensions;
 
 namespace RentARide.Controllers
 {
@@ -19,6 +20,12 @@ namespace RentARide.Controllers
 		[HttpGet]
 		public async Task <IActionResult> Become()
 		{
+
+			if (await agentService.ExistsById(User.Id()))
+			{
+				return BadRequest();
+			}
+
 			var model = new BecomeAgentFormModel();
 
 

@@ -44,6 +44,8 @@ namespace RentARide.Infrastructure.Data.Models
 
         [Required]
         public int EngineId { get; set; }
+    
+        public string RenterId { get; set; } = String.Empty;
 
         [Required]
         public int ManufacturerId { get; set; }

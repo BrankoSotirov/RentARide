@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace RentARide.Infrastructure.Data.Models
 {
+
+    [Index (nameof(PhoneNumber), IsUnique = true)] 
     public class Agent
     {
         [Key]
