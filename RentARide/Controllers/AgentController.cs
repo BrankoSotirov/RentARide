@@ -22,6 +22,12 @@ namespace RentARide.Controllers
 		[NotAnAgent]
 		public async Task <IActionResult> Become()
 		{
+
+			if (await agentService.ExistsById(User.Id()))
+			{
+				return BadRequest();
+			}
+
 			var model = new BecomeAgentFormModel();
 
 			return View(model);
