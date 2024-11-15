@@ -46,7 +46,7 @@ namespace RentARide.Controllers
 
 			if (await agentService.UserHasRent(User.Id())) {
 
-				ModelState.AddModelError("Error", "");
+				ModelState.AddModelError("Error", "") ;
 
 			}
 

@@ -13,9 +13,9 @@ namespace RentARide.Attributes
 
             IAgentService? agentService = context.HttpContext.RequestServices.GetService<IAgentService>();
 
-            if (agentService != null)
+            if (agentService == null)
             {
-                context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
             if (agentService != null &&
                 agentService.ExistsById(context.HttpContext.User.Id()).Result)
