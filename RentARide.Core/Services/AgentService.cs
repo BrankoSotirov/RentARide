@@ -37,6 +37,12 @@ namespace RentARide.Core.Services
                
         }
 
+        public async Task<int?> GetAgentId(string userId)
+        {
+           return (await repository.AllReadOnly<Agent>()
+                .FirstOrDefaultAsync(a => a.UserId == userId))? .Id;
+        }
+
         public async Task<bool> UserHasRent(string userId)
         {
              return  await repository.AllReadOnly<Vehicle>()

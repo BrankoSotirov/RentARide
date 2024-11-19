@@ -38,7 +38,7 @@ namespace RentARide.Controllers
 		[NotAnAgent]
 		public async Task <IActionResult> Become(BecomeAgentFormModel model)
 		{
-			if (await agentService.UserWithPhoneNumberExists(User.Id()))
+			if (await agentService.UserWithPhoneNumberExists(model.PhoneNumber))
 			{
 				ModelState.AddModelError(nameof(model.PhoneNumber), "");
 

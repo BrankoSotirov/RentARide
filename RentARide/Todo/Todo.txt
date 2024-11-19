@@ -1,0 +1,17 @@
+
+
+Todo:
+
+Remove Become agent button for users that are already agents!
+
+small changes:
+
+- minor name changes (Adding form)
+- db seed
+- main button to work (add)
+
+- to be removed from most views
+
+- login and register useless text to be removed 
+
+

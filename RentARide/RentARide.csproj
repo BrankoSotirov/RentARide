@@ -19,4 +19,9 @@
     <ProjectReference Include="..\RentARide.Core\RentARide.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelBinders\" />
+    <Folder Include="Todo\" />
+  </ItemGroup>
+
 </Project>

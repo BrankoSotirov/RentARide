@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 using RentARide.Core.Contracts;
 using RentARide.Extensions;
+using RentARide.Controllers;
 
 namespace RentARide.Attributes
 {
-    public class NotAnAgentAttribute : ActionFilterAttribute
+    public class MustBeAgentAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -17,12 +18,12 @@ namespace RentARide.Attributes
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
+
             if (agentService != null &&
-                agentService.ExistsById(context.HttpContext.User.Id()).Result)
+                agentService.ExistsById(context.HttpContext.User.Id()).Result == false)
             {
 
-                context.Result = new StatusCodeResult(StatusCodes.Status302Found);
-            
+                context.Result = new RedirectToActionResult(nameof(AgentController.Become), "Agent", null);
             }
         }
     }

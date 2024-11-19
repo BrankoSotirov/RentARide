@@ -1,13 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RentARide.Attributes;
+using RentARide.Core.Contracts;
 using RentARide.Core.Models.Vehicle;
+using RentARide.Extensions;
 
 namespace RentARide.Controllers
 {
     [Authorize]
-    public class VehicleController : Controller
+    public class VehicleController : BaseController
     {
+        private readonly IVehicleService vehicleService;
+        private readonly IAgentService agentService;
+
+        public VehicleController(IVehicleService _vehicleService, IAgentService _agentService)
+        {
+            vehicleService = _vehicleService;
+            agentService = _agentService;
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public  async Task<IActionResult> All()
@@ -33,15 +45,45 @@ namespace RentARide.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        [MustBeAgent]
+        public async Task <IActionResult> Add()
         {
-            return View();
+       
+            var model = new VehicleFormModel()
+            {
+                Categories = await vehicleService.AllCategories(),
+               EngineType = await vehicleService.AllEngineTypes(),
+                Manufacturer = await vehicleService.AllManufacturers()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
+        [MustBeAgent]
         public async Task <IActionResult> Add(VehicleFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (await vehicleService.CategoryExists(model.CategoryId) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "");
+
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Categories = await vehicleService.AllCategories();
+                model.EngineType = await vehicleService.AllEngineTypes();
+                model.Manufacturer = await vehicleService.AllManufacturers();
+
+                return View(model);
+            }
+
+            int? agentId = await agentService.GetAgentId(User.Id());
+
+            int newHouseId = await vehicleService.Create(model, agentId ?? 0);
+
+
+            return RedirectToAction(nameof(Details), new { id = newHouseId });
 
         }
 
