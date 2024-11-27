@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RentARide.Infrastructure.Data.Models;
+using RentARide.Infrastructure.Data.SeedDb;
 
 namespace RentARide.Data
 {
@@ -17,26 +18,14 @@ namespace RentARide.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-			builder
-				.Entity<Vehicle>()
-				.HasOne(v => v.Category)
-				.WithMany(v => v.Vehicles)
-				.HasForeignKey(v => v.CategoryId)
-				.OnDelete(DeleteBehavior.Restrict);
+			builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new AgentConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new VehicleConfiguration());
+            builder.ApplyConfiguration(new EngineConfiguration());
+            builder.ApplyConfiguration(new ManufacturerConfiguration());
 
-			builder.Entity<Vehicle>()
-				.HasOne(v => v.Manufacturer)
-				.WithMany(v => v.Vehicles)
-				.HasForeignKey(v => v.ManufacturerId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			builder.Entity<Vehicle>()
-				.HasOne(v => v.Agent)
-				.WithMany(v => v.Vehicles)
-				.HasForeignKey(v => v.AgentId)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			base.OnModelCreating(builder);
+            base.OnModelCreating(builder);
 		}
 		public DbSet<Vehicle> Vehicles { get; set; }
 

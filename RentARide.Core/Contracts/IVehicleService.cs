@@ -1,4 +1,5 @@
-﻿using RentARide.Core.Models.Home;
+﻿using RentARide.Core.Enumerations;
+using RentARide.Core.Models.Home;
 using RentARide.Core.Models.Vehicle;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,19 @@ namespace RentARide.Core.Contracts
         Task<bool>ManufacturerExists(int manufacturerId);
 
         Task <int> Create(VehicleFormModel model, int agentId);
-    }
+
+        Task<VehicleQueryServiceModel> All(string? cateogry = null,
+            string searchTerm = null,
+            string? manufacturer = null,
+            string? engine = null,
+            VehicleSorting sorting = VehicleSorting.Newest,
+            int currentPage = 1,
+            int vehiclesPerPage = 1);
+
+        Task<IEnumerable<string>> AllCategoriesNames();
+
+		Task<IEnumerable<string>> AllEngineTypeNames();
+		Task<IEnumerable<string>> AllManufacturerNames();
+
+	}
 }

@@ -22,10 +22,25 @@ namespace RentARide.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public  async Task<IActionResult> All()
+        public  async Task<IActionResult> All([FromQuery] AllVehiclesQueryModel query)
         {
-            var model = new AllVehiclesQueryModel();
-            return  View(model);  
+            var model = await vehicleService.All(
+                query.Category,
+                query.Engine,
+                query.Manufacturer,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                query.VehiclesPerPage);
+
+            query.TotalVehiclesCount = model.TotalVehicleCount;
+            query.Vehicles = model.Vehicles;
+
+            query.Categories = await vehicleService.AllCategoriesNames();
+            query.Engines = await vehicleService.AllEngineTypeNames();
+            query.Manufacturers = await vehicleService.AllManufacturerNames();
+
+            return  View(query);  
         }
 
         [HttpGet]
@@ -68,6 +83,16 @@ namespace RentARide.Controllers
                 ModelState.AddModelError(nameof(model.CategoryId), "");
 
             }
+            if (await vehicleService.EngineTypeExists(model.EngineId) == false)
+            {
+                ModelState.AddModelError(nameof(model.EngineId), "");
+            }
+
+            if (await vehicleService.ManufacturerExists(model.ManufacturerId) == false)
+            {
+                ModelState.AddModelError(nameof(model.ManufacturerId), "");
+            }
+
 
             if (ModelState.IsValid == false)
             {
