@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentARide.Data;
 
@@ -11,9 +12,11 @@ using RentARide.Data;
 namespace RentARide.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127163037_DataSeededTest4")]
+    partial class DataSeededTest4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,15 +146,15 @@ namespace RentARide.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "badf89d9-076d-40d9-81e4-ac460fd874cf",
+                            ConcurrencyStamp = "0b63f02a-c526-41b1-97b5-7297e8aaf517",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIBXcG0kSUtmTXIeVqU3wG7mKxtXiPVGlrq9T6s7Uegmmlpu7ZQDWIhibwwDA9kXgA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOtgFUS5o1PYwyQK6X6bx6l8jsraqYdAFaZKSdjtot9C8CYQNOdi2y6LkHSONz02NQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ae80ec6e-390d-4b33-aa0c-f6cce845fc9a",
+                            SecurityStamp = "c7cb822b-13a0-416d-a28e-6bfad4c38028",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -159,15 +162,15 @@ namespace RentARide.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c85d56c1-8bff-4744-9afd-978c7cbbf525",
+                            ConcurrencyStamp = "8c8d5d50-1cd9-4153-829c-de141252db66",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAECxAP7YcLjw9UqGebxqq5XapXNnt9MhAARXpf6ucRII/7uf9QaJV4z80KIOOt2ZpJg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPmbvWKOgVUrLZTotJPFZKh7ISd2XEkOxuS9FXyrEoYAd6QlMM+4A4naWN1H/wV0aw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "202e4eac-e442-4fa3-813e-14b4bff6004f",
+                            SecurityStamp = "7045ea9c-338a-4ffb-80b4-dd156b68b1e5",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -286,7 +289,7 @@ namespace RentARide.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3,
+                            Id = 1,
                             PhoneNumber = "+359888888888",
                             UserId = "dea12856-c198-4129-b3f3-b893d8395082"
                         });
@@ -477,7 +480,7 @@ namespace RentARide.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AgentId = 3,
+                            AgentId = 1,
                             CategoryId = 1,
                             Description = "A small diesel efficient Hatchback produced by Audi. Extremely reliable vehicle that is cheap to mantain",
                             EngineId = 1,
@@ -492,7 +495,7 @@ namespace RentARide.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            AgentId = 3,
+                            AgentId = 1,
                             CategoryId = 4,
                             Description = "A mid size sedan produced by Honda. Extremely reliable vehicle that is cheap to mantain",
                             EngineId = 2,
@@ -507,7 +510,7 @@ namespace RentARide.Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-                            AgentId = 3,
+                            AgentId = 1,
                             CategoryId = 4,
                             Description = "A big sedan produced by Mercedes-Benz. Extremely reliable vehicle that costly to maintain",
                             EngineId = 3,

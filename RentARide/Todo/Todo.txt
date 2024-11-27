@@ -2,16 +2,16 @@
 
 Todo:
 
-Remove Become agent button for users that are already agents!
+db SEED
+views -> vehicles -> all to be edited.
 
-small changes:
+AllvehicleQueryModel - can only search by category and not EngineType of Manufacturer - to be fixed.
+Vehicle controller = again - make fixes to include the engine and manufacturer too
+the SEEDDB does not work.
 
-- minor name changes (Adding form)
-- db seed
-- main button to work (add)
+sorting - fix the price sorting - add highest price too
 
-- to be removed from most views
+The app breaks when I go to the second page of vehicles
 
-- login and register useless text to be removed 
 
 

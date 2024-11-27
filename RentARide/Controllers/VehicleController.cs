@@ -22,24 +22,60 @@ namespace RentARide.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public  async Task<IActionResult> All()
+        public  async Task<IActionResult> All([FromQuery] AllVehiclesQueryModel model)
         {
-            var model = new AllVehiclesQueryModel();
+            var vehicles = await vehicleService.All(
+                model.Category,
+                model.Engine,
+                model.Manufacturer,
+                model.SearchTerm,
+                model.Sorting,
+                model.CurrentPage,
+                model.VehiclesPerPage);
+
+            model.TotalVehiclesCount = vehicles.TotalVehicleCount;
+            model.Vehicles = vehicles.Vehicles;
+
+            model.Categories = await vehicleService.AllCategoriesNames();
+            model.Engines = await vehicleService.AllEngineTypeNames();
+            model.Manufacturers = await vehicleService.AllManufacturerNames();
+
             return  View(model);  
         }
 
         [HttpGet]
         public async Task <IActionResult> Mine()
         {
-            var model = new AllVehiclesQueryModel();
+            var userId = User.Id();
+
+            IEnumerable<VehicleServiceModel> model;
+
+
+
+            if (await agentService.ExistsById(userId))
+            {
+                int agentId = await agentService.GetAgentId(userId) ?? 0;
+                model = await vehicleService.AllVehiclesByAgentId(agentId);
+            }
+
+            else
+            {
+                model = await vehicleService.AllVehiclesByUserId(userId);
+            }
+
 
             return  View(model);
         }
         [HttpGet]
         public async Task <IActionResult> Details (int id)
         {
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
-            var model = new VehicleDetailsViewModel();
+
+            var model = await vehicleService.VehicleDetailsById(id);
 
             return View(model);
         }
@@ -63,11 +99,23 @@ namespace RentARide.Controllers
         [MustBeAgent]
         public async Task <IActionResult> Add(VehicleFormModel model)
         {
+            
             if (await vehicleService.CategoryExists(model.CategoryId) == false)
             {
-                ModelState.AddModelError(nameof(model.CategoryId), "");
+                ModelState.AddModelError(nameof(model.CategoryId), "test");
 
             }
+            if (await vehicleService.EngineTypeExists(model.EngineId) == false)
+            {
+                ModelState.AddModelError(nameof(model.EngineId), "");
+            }
+
+            if (await vehicleService.ManufacturerExists(model.ManufacturerId) == false)
+            {
+                ModelState.AddModelError(nameof(model.ManufacturerId), "");
+            }
+
+            
 
             if (ModelState.IsValid == false)
             {
@@ -80,18 +128,28 @@ namespace RentARide.Controllers
 
             int? agentId = await agentService.GetAgentId(User.Id());
 
-            int newHouseId = await vehicleService.Create(model, agentId ?? 0);
+            int newVehicleId = await vehicleService.Create(model, agentId ?? 0);
 
 
-            return RedirectToAction(nameof(Details), new { id = newHouseId });
+            return RedirectToAction(nameof(Details), new { id = newVehicleId });
 
         }
 
         [HttpGet]
         public async Task <IActionResult> Edit (int id)
         {
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
 
-            var model = new VehicleFormModel();
+            }
+
+            if (await vehicleService.HasAgentWithId(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+                var model = await vehicleService.GetVehicleFormModelById(id);
 
             return View(model);
         }
@@ -100,7 +158,34 @@ namespace RentARide.Controllers
 
         public async Task<IActionResult> Edit(int id, VehicleFormModel model)
         {
-			return RedirectToAction(nameof(Details), new { id = "1" });
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+
+            }
+
+            if (await vehicleService.HasAgentWithId(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            //if (await vehicleService.CategoryExists(model.CategoryId) == false)
+           // {
+           //     ModelState.AddModelError(nameof(model.CategoryId), "no such category");
+           // }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Categories = await vehicleService.AllCategories();
+                model.Manufacturer = await vehicleService.AllManufacturers();
+                model.EngineType = await vehicleService.AllEngineTypes();
+
+                return View(model);
+            }
+
+            await vehicleService.Edit(id, model);
+
+            return RedirectToAction(nameof(Details), new { id });
 		}
 
 

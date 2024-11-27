@@ -14,6 +14,8 @@ namespace RentARide.Infrastructure.Data.Common
 
 		Task Add<T>(T entity) where T : class;
 
-		Task<int> SaveChanges();
+		Task <T?> GetById<T> (object id) where T : class;
+
+        Task<int> SaveChanges();
 	}
 }
