@@ -1,5 +1,6 @@
-﻿@model VehicleServiceModel
-
+﻿@using RentARide.Extensions
+@model VehicleServiceModel
+@inject IVehicleService services
 <div class="col-md-4">
     <div class="card mb-3">
         <img class="card-img-top" src="@Model.ImageUrl" alt="Vehicle Image">
@@ -16,10 +17,15 @@
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <a asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.Id"
-                   class="btn btn-warning">Edit</a>
-                <a asp-controller="Vehicle" asp-action="Delete" asp-route-id="@Model.Id"
-                   class="btn btn-danger">Delete</a>
+                @if (await services.HasAgentWithId(Model.Id, User.Id()))
+                {
+                    <a asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Edit</a>
+                    <a asp-controller="Vehicle" asp-action="Delete" asp-route-id="@Model.Id"
+                       class="btn btn-danger">Delete</a>
+                }
+               
+               
                 <p></p>
                 @if (!Model.IsRented)
                 {

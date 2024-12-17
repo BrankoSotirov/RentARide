@@ -11,7 +11,28 @@ the SEEDDB does not work.
 
 sorting - fix the price sorting - add highest price too
 
+
 The app breaks when I go to the second page of vehicles
+
+
+
+
+
+method isVehicleRented - done
+
+Таблица за избиране на дати - предходна дата да не може да се избира
+
+ново view за рента
+
+бутон рент във view - redirectva
+
+във view-to бутона запазва
+
+бутон рент да не се вижда ако колата е рентната 
+
+
+
+
 
 
 

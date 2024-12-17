@@ -97,38 +97,38 @@ namespace RentARide.Controllers
 
         [HttpPost]
         [MustBeAgent]
-        public async Task <IActionResult> Add(VehicleFormModel model)
+        public async Task <IActionResult> Add(VehicleFormModel MODELL)
         {
             
-            if (await vehicleService.CategoryExists(model.CategoryId) == false)
+            if (await vehicleService.CategoryExists(MODELL.CategoryId) == false)
             {
-                ModelState.AddModelError(nameof(model.CategoryId), "test");
+                ModelState.AddModelError(nameof(MODELL.CategoryId), "test");
 
             }
-            if (await vehicleService.EngineTypeExists(model.EngineId) == false)
+            if (await vehicleService.EngineTypeExists(MODELL.EngineId) == false)
             {
-                ModelState.AddModelError(nameof(model.EngineId), "");
+                ModelState.AddModelError(nameof(MODELL.EngineId), "");
             }
 
-            if (await vehicleService.ManufacturerExists(model.ManufacturerId) == false)
+            if (await vehicleService.ManufacturerExists(MODELL.ManufacturerId) == false)
             {
-                ModelState.AddModelError(nameof(model.ManufacturerId), "");
+                ModelState.AddModelError(nameof(MODELL.ManufacturerId), "");
             }
 
             
 
             if (ModelState.IsValid == false)
             {
-                model.Categories = await vehicleService.AllCategories();
-                model.EngineType = await vehicleService.AllEngineTypes();
-                model.Manufacturer = await vehicleService.AllManufacturers();
+				MODELL.Categories = await vehicleService.AllCategories();
+				MODELL.EngineType = await vehicleService.AllEngineTypes();
+				MODELL.Manufacturer = await vehicleService.AllManufacturers();
 
-                return View(model);
+                return View(MODELL);
             }
 
             int? agentId = await agentService.GetAgentId(User.Id());
 
-            int newVehicleId = await vehicleService.Create(model, agentId ?? 0);
+            int newVehicleId = await vehicleService.Create(MODELL, agentId ?? 0);
 
 
             return RedirectToAction(nameof(Details), new { id = newVehicleId });
@@ -156,7 +156,7 @@ namespace RentARide.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Edit(int id, VehicleFormModel model)
+        public async Task<IActionResult> Edit(int id, VehicleFormModel MODELLL)
         {
             if (await vehicleService.ExistsAsync(id) == false)
             {
@@ -169,21 +169,21 @@ namespace RentARide.Controllers
                 return Unauthorized();
             }
 
-            //if (await vehicleService.CategoryExists(model.CategoryId) == false)
-           // {
-           //     ModelState.AddModelError(nameof(model.CategoryId), "no such category");
-           // }
+            if (await vehicleService.CategoryExists(MODELLL.CategoryId) == false)
+            {
+                ModelState.AddModelError(nameof(MODELLL.CategoryId), "ne baca");
+            }
 
             if (ModelState.IsValid == false)
             {
-                model.Categories = await vehicleService.AllCategories();
-                model.Manufacturer = await vehicleService.AllManufacturers();
-                model.EngineType = await vehicleService.AllEngineTypes();
+				MODELLL.Categories = await vehicleService.AllCategories();
+				MODELLL.Manufacturer = await vehicleService.AllManufacturers();
+				MODELLL.EngineType = await vehicleService.AllEngineTypes();
 
-                return View(model);
+                return View(MODELLL);
             }
 
-            await vehicleService.Edit(id, model);
+            await vehicleService.Edit(id, MODELLL);
 
             return RedirectToAction(nameof(Details), new { id });
 		}
