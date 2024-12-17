@@ -53,6 +53,8 @@ namespace RentARide.Core.Contracts
         Task<bool> HasAgentWithId(int vehicleId, string userId);
 
         Task <VehicleFormModel?> GetVehicleFormModelById(int Id);
+
+        Task <bool> IsVehicleRented ();
         
 
 	}

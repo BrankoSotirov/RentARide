@@ -174,7 +174,7 @@ namespace RentARide.Core.Services
 
             };
 
-
+      
 		}
 
 		public async Task<IEnumerable<string>> AllCategoriesNames()
@@ -330,6 +330,13 @@ namespace RentARide.Core.Services
            
 
             return vehicle;
+        }
+
+        public async Task<bool> IsVehicleRented()
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .AnyAsync(v => v.RenterId != null);
+                
         }
     }
 }
