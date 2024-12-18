@@ -205,17 +205,26 @@ namespace RentARide.Controllers
 		}
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Rent(int id)
         {
-            return RedirectToAction(nameof(Mine));
+            var model = await vehicleService.GetRentViewModelById(id);
+
+            if (model == null)
+            {
+                ModelState.AddModelError(nameof(model.Id), "ne baca");
+            }
+
+            return View(model);
+
         }
 
 
 		[HttpPost]
 		public async Task<IActionResult> Leave(int id)
 		{
-			return RedirectToAction(nameof(Mine));
+
+			return RedirectToAction(nameof(All));
 		}
 
 

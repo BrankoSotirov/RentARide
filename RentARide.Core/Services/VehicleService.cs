@@ -83,6 +83,7 @@ namespace RentARide.Core.Services
                 AgentId = agentId,
                 EngineId = model.EngineId
                 
+                
             };
             await repository.Add(vehicle);
             await repository.SaveChanges();
@@ -214,7 +215,7 @@ namespace RentARide.Core.Services
                    Model = v.Model,
                    PricePerDay = v.PricePerDay,
                    Year = v.Year,
-                   IsRented = v.RenterId != null
+                   IsRented = false
                })
                 .ToListAsync();
         }
@@ -337,6 +338,45 @@ namespace RentARide.Core.Services
             return await repository.AllReadOnly<Vehicle>()
                 .AnyAsync(v => v.RenterId != null);
                 
+        }
+
+        public async Task<RentViewModel> GetRentViewModelById(int Id)
+        {
+           var model = await repository.AllReadOnly<Vehicle>()
+                .Where (x => x.Id == Id)
+                .Select (x => new RentViewModel
+                {
+                    Model = x.Model,
+                    Description = x.Description,
+                    Year = x.Year,
+                    HorsePower = x.HorsePower,
+                    PricePerDay = x.PricePerDay,
+                    ImageUrl = x.ImageUrl,
+                    Category = x.Category.Name,
+                    Manufacturer = x.Manufacturer.Name,
+                    Engine = x.Engine.Type
+
+
+                    
+
+                }).FirstOrDefaultAsync();
+
+
+
+
+
+            return model;
+        }
+
+        public async Task LeaveAsync(int id)
+        {
+            var car = await repository.AllReadOnly<Vehicle>().Where(c => c.Id == id).FirstOrDefaultAsync();
+
+            if (car.RenterId == null)
+            {
+                car.RenterId = null;
+            }
+            
         }
     }
 }

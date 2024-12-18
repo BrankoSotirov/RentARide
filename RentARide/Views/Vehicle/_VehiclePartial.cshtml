@@ -29,10 +29,9 @@
                 <p></p>
                 @if (!Model.IsRented)
                 {
-                    <form class="input-group-sm" asp-controller="House"
-                          asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Rent" />
-                    </form>
+                    <a asp-controller="Vehicle" asp-action="Rent" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Rent</a>
+             
                 }
                 else
                 {

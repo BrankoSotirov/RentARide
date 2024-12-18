@@ -55,6 +55,13 @@ namespace RentARide.Core.Contracts
         Task <VehicleFormModel?> GetVehicleFormModelById(int Id);
 
         Task <bool> IsVehicleRented ();
+
+
+        Task <RentViewModel> GetRentViewModelById(int Id);
+
+        Task LeaveAsync(int id);
+
+
         
 
 	}

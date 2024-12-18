@@ -25,9 +25,9 @@ namespace RentARide.Core.Models.Vehicle
 		
 		public string ImageUrl { get; set; } = string.Empty;
 
-	
+
 		[Display(Name = "Is rented")]
-		public bool IsRented { get; set; }	
+		public bool IsRented { get; set; } = false;
 
 
 	}
